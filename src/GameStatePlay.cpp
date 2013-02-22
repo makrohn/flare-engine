@@ -567,7 +567,7 @@ void GameStatePlay::checkNPCInteraction() {
 		if (inpt->pressing[ACCEPT]) inpt->lock[ACCEPT] = true;
 
 		if (map->npc) {
-			npc_id = map->event_npc[npc_id];
+			npc_id = 1;
 			fprintf(stderr, "blurp");
 		}
 
