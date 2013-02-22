@@ -568,7 +568,6 @@ void GameStatePlay::checkNPCInteraction() {
 
 		if (map->npc) {
 			npc_id = map->event_npc[npc_id];
-			interact_distance = 0;
 			fprintf(stderr, "blurp");
 		}
 
@@ -641,11 +640,6 @@ void GameStatePlay::checkNPCInteraction() {
 			}
 			npc_id = -1;
 		}
-	}
-
-	// close event-driven npc dialog
-	if (map->npc && menu->vendor->visible == false && menu->talker->visible == false) {
-		map->npc = false;
 	}
 
 }
