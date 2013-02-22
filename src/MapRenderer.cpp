@@ -1317,7 +1317,6 @@ bool MapRenderer::executeEvent(Map_Event &ev) {
 		else if (ec->type == "npc") {
 			npc = true;
 			event_npc = ec->s;
-			cout << event_npc << npc << endl;
 		}
 	}
 	if (ev.type == "run_once" || ev.type == "on_load" || ev.type == "on_clear" || destroy_event)

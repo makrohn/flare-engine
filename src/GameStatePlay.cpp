@@ -561,15 +561,16 @@ void GameStatePlay::checkNPCInteraction() {
 		interact_distance = (int)calcDist(pc->stats.pos, npcs->npcs[npc_id]->pos);
 	}
 
+	if (map->npc) {
+		npc_id = npcs->getID(map->event_npc);
+		interact_distance = 0;
+		
+	}
+
 	// if close enough to the NPC, open the appropriate interaction screen
 	if (npc_click != -1 && interact_distance < max_interact_distance && pc->stats.alive && pc->stats.humanoid || map->npc) {
 		if (inpt->pressing[MAIN1]) inpt->lock[MAIN1] = true;
 		if (inpt->pressing[ACCEPT]) inpt->lock[ACCEPT] = true;
-
-		if (map->npc) {
-			npc_id = 1;
-			fprintf(stderr, "blurp");
-		}
 
 		bool npc_have_dialog = !(npcs->npcs[npc_id]->chooseDialogNode() == NPC_NO_DIALOG_AVAIL);
 
