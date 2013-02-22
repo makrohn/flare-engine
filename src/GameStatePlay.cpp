@@ -566,7 +566,11 @@ void GameStatePlay::checkNPCInteraction() {
 		if (inpt->pressing[MAIN1]) inpt->lock[MAIN1] = true;
 		if (inpt->pressing[ACCEPT]) inpt->lock[ACCEPT] = true;
 
-		if (map->npc) npc_id = map->npc_id;
+		if (map->npc) {
+			npc_id = map->event_npc[npc_id];
+			interact_distance = 0;
+			fprintf(stderr, "blurp");
+		}
 
 		bool npc_have_dialog = !(npcs->npcs[npc_id]->chooseDialogNode() == NPC_NO_DIALOG_AVAIL);
 
@@ -627,7 +631,7 @@ void GameStatePlay::checkNPCInteraction() {
 	}
 
 	// check for walking away from an NPC
-	if (npc_id != -1) {
+	if (npc_id != -1 && map->npc == false) {
 		if (interact_distance > max_interact_distance || !pc->stats.alive) {
 			menu->vendor->npc = NULL;
 			menu->talker->npc = NULL;

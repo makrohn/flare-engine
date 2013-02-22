@@ -541,8 +541,8 @@ int MapRenderer::load(string filename) {
 					}
 				}
 				else if (infile.key == "npc") {
-
-					e->x = toInt(infile.val);
+					new_npc.id = infile.val;
+					e->s = infile.key;
 				}
 			}
 		}
@@ -1316,7 +1316,7 @@ bool MapRenderer::executeEvent(Map_Event &ev) {
 		}
 		else if (ec->type == "npc") {
 			npc = true;
-			npc_id = ec->x;
+			event_npc = ec->s;
 		}
 	}
 	if (ev.type == "run_once" || ev.type == "on_load" || ev.type == "on_clear" || destroy_event)

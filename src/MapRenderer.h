@@ -289,7 +289,7 @@ public:
 
 	// event talker
 	bool npc;
-	int npc_id;
+	std::string event_npc;
 };
 
 
