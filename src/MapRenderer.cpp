@@ -542,7 +542,7 @@ int MapRenderer::load(string filename) {
 				}
 				else if (infile.key == "npc") {
 					new_npc.id = infile.val;
-					e->s = infile.key;
+					e->s = infile.val;
 				}
 			}
 		}
