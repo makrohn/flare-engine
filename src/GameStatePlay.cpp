@@ -537,7 +537,8 @@ void GameStatePlay::checkNotifications() {
 /**
  * If the player has clicked on an NPC, the game mode might be changed.
  * If a player walks away from an NPC, end the interaction with that NPC
- * If an NPC is giving a reward, process it
+ * If an NPC is giving a reward, process it.
+ * An NPC interaction can also be triggered by a map event.
  */
 void GameStatePlay::checkNPCInteraction() {
 	if (pc->attacking) return;
@@ -562,14 +563,16 @@ void GameStatePlay::checkNPCInteraction() {
 		interact_distance = (int)calcDist(pc->stats.pos, npcs->npcs[npc_id]->pos);
 	}
 
-	if (map->npc) {
-		npc_id = npcs->getID(map->event_npc);
+	// event triggered NPC do not need checking for interaction distance, so this
+	// is put after the calculation of interact_distance.
+	std::string map_event_npc = map->getNPCEvent();
+	if (map_event_npc != "") {
+		npc_id = npcs->getID(map_event_npc);
 		event_npc = true;
-		
 	}
 
 	// if close enough to the NPC, open the appropriate interaction screen
-	if (npc_click != -1 && interact_distance < max_interact_distance && pc->stats.alive && pc->stats.humanoid || map->npc) {
+	if (npc_click != -1 && interact_distance < max_interact_distance && pc->stats.alive && pc->stats.humanoid || event_npc) {
 		if (inpt->pressing[MAIN1]) inpt->lock[MAIN1] = true;
 		if (inpt->pressing[ACCEPT]) inpt->lock[ACCEPT] = true;
 
@@ -588,7 +591,7 @@ void GameStatePlay::checkNPCInteraction() {
 		}
 	}
 
-	if (npc_id != -1 && interact_distance < max_interact_distance && pc->stats.alive && pc->stats.humanoid || map->npc) {
+	if (npc_id != -1 && interact_distance < max_interact_distance && pc->stats.alive && pc->stats.humanoid || event_npc) {
 
 		if (menu->talker->vendor_visible && !menu->vendor->talker_visible) {
 
@@ -630,9 +633,8 @@ void GameStatePlay::checkNPCInteraction() {
 			menu->talker->vendor_visible = false;
 			menu->vendor->talker_visible = false;
 		}
-		
-		if (map->npc) map->npc = false;
 
+		map->clearNPCEvent();
 	}
 
 	// check for walking away from an NPC
@@ -647,7 +649,7 @@ void GameStatePlay::checkNPCInteraction() {
 			npc_id = -1;
 		}
 	}
-	else if (!menu->vendor->visible && !menu->talker->visible || npc_click != -1) { 
+	else if (!menu->vendor->visible && !menu->talker->visible || npc_click != -1) {
 		event_npc = false;
 	}
 
