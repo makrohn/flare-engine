@@ -70,7 +70,6 @@ MapRenderer::MapRenderer(CampaignManager *_camp)
  , stash(false)
  , stash_pos(Point())
  , enemies_cleared(false)
- , npc(false)
 {
 }
 
@@ -1315,7 +1314,6 @@ bool MapRenderer::executeEvent(Map_Event &ev) {
 			stash_pos.y = ev.location.y * UNITS_PER_TILE + UNITS_PER_TILE/2;
 		}
 		else if (ec->type == "npc") {
-			npc = true;
 			event_npc = ec->s;
 		}
 	}
@@ -1324,6 +1322,16 @@ bool MapRenderer::executeEvent(Map_Event &ev) {
 	else
 		return false;
 }
+
+std::string MapRenderer::getNPCEvent() {
+	std::string ret = event_npc;
+	return ret;
+}
+
+void MapRenderer::clearNPCEvent() {
+	event_npc = "";
+}
+
 
 MapRenderer::~MapRenderer() {
 	if (music != NULL) {

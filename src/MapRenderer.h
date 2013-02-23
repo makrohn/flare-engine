@@ -222,6 +222,9 @@ private:
 	// force a rendering of the background in the next render step.
 	bool repaint_background;
 
+	// event talker
+	std::string event_npc;
+
 public:
 	CampaignManager *camp;
 	PowerManager *powers;
@@ -239,6 +242,9 @@ public:
 	void checkHotspots();
 	void checkNearestEvent(Point loc);
 	void checkTooltip();
+
+	std::string getNPCEvent();
+	void clearNPCEvent();
 
 	// vars
 	std::string title;
@@ -286,10 +292,6 @@ public:
 
 	// enemy clear
 	bool enemies_cleared;
-
-	// event talker
-	bool npc;
-	std::string event_npc;
 };
 
 
