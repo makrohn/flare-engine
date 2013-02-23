@@ -636,7 +636,7 @@ void GameStatePlay::checkNPCInteraction() {
 	}
 
 	// check for walking away from an NPC
-	if (npc_id != -1 && event_npc == false) {
+	if (npc_id != -1 && !event_npc) {
 		if (interact_distance > max_interact_distance || !pc->stats.alive) {
 			menu->vendor->npc = NULL;
 			menu->talker->npc = NULL;
@@ -646,6 +646,10 @@ void GameStatePlay::checkNPCInteraction() {
 			}
 			npc_id = -1;
 		}
+	}
+	else if (!menu->vendor->visible && !menu->talker->visible) { 
+		event_npc = false;
+		npc_id = -1;
 	}
 
 }
